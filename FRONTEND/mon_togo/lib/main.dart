@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'screens/chat_screen.dart';
+import 'services/theme_service.dart';
+import 'themes/dark_theme.dart';
+import 'themes/light_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,54 +14,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Hello App',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const HelloPage(),
-    );
-  }
-}
-
-class HelloPage extends StatefulWidget {
-  const HelloPage({super.key});
-
-  @override
-  State<HelloPage> createState() => _HelloPageState();
-}
-
-class _HelloPageState extends State<HelloPage> {
-  String message = "Chargement...";
-
-  Future<void> fetchHello() async {
-    final response = await http.get(Uri.parse("http://192.168.1.67:8080/hello"));
-    if (response.statusCode == 200) {
-      setState(() {
-        message = response.body;
-      });
-    } else {
-      setState(() {
-        message = "Erreur ${response.statusCode}";
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchHello();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-          title: const Text("Hello App")),
-      body: Center(
-        child: Text(
-          message,
-          style: const TextStyle(fontSize: 20),
-        ),
+    return ChangeNotifierProvider(
+      create: (_) => ThemeService(),
+      child: Consumer<ThemeService>(
+        builder: (context, themeService, child) {
+          return MaterialApp(
+            title: 'Chatbot Togo Constitution',
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: themeService.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            home: const ChatScreen(),
+          );
+        },
       ),
     );
   }
