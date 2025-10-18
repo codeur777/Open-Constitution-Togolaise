@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeService>(
         builder: (context, themeService, child) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Chatbot Togo Constitution',
             theme: lightTheme,
             darkTheme: darkTheme,

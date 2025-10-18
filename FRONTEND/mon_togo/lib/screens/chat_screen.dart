@@ -46,7 +46,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chatbot Togo'),
+        title: const Text('My Togo AI'),
       ),
       drawer: const SidebarDrawer(),
       body: Column(
